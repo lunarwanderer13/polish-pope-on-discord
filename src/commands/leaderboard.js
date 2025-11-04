@@ -1,4 +1,5 @@
 import { SlashCommandBuilder, EmbedBuilder } from "discord.js"
+import { Pagination } from "pagination.djs"
 import fs from "fs"
 
 export const data = new SlashCommandBuilder()
@@ -8,8 +9,8 @@ export const data = new SlashCommandBuilder()
 export async function execute(interaction) {
     const pope_list = JSON.parse(fs.readFileSync("src/logs/pope.json"))
 
-    const popes_array = [...pope_list].sort((a, b) => a.popes - b.popes)
-    const popes_row_array = [...pope_list].sort((a, b) => a.popes_in_a_row - b.popes_in_a_row)
+    const popes_array = [...pope_list].sort((a, b) => b.popes - a.popes)
+    const popes_row_array = [...popes_array].sort((a, b) => b.popes_in_a_row - a.popes_in_a_row)
 
     let top_popes = ""
     let top_popes_row = ""
@@ -24,15 +25,11 @@ export async function execute(interaction) {
         top_popes_row += `**${i + 1}**. \`${member_popes_row.displayName}\`\n`
     }
 
-    const Embed = new EmbedBuilder()
+    new Pagination(interaction)
         .setTitle("Tablica kremówkowych wyników")
         .setColor("#69bccd")
-        .setThumbnail(interaction.client.user.displayAvatarURL())
-        .setAuthor({
-            name: interaction.user.displayName,
-            iconURL: interaction.user.displayAvatarURL()
-        })
-        .addFields(
+
+        .setFields([
             {
                 name: "Top 5 kremówek",
                 value: top_popes,
@@ -43,7 +40,8 @@ export async function execute(interaction) {
                 value: top_popes_row,
                 inline: true
             }
-        )
+        ])
 
-    await interaction.reply({embeds: [Embed]})
+        .paginateFields()
+        .render()
 }
