@@ -17,5 +17,5 @@ export async function execute(interaction) {
     const minutes = Math.floor((totalSeconds % 3600) / 60)
     const seconds = totalSeconds % 60
 
-    await interaction.reply(`Pozostało jeszcze **${hours}h ${minutes}m ${seconds}s** do 21:37.`)
+    await interaction.reply(`${interaction.user} pozostało jeszcze **${hours}h ${minutes}m ${seconds}s** do 21:37.`)
 }
