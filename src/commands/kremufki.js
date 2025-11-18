@@ -31,7 +31,7 @@ export async function execute(interaction) {
             },
             {
                 name: `:fire: Streak :fire:`,
-                value: `Zjadłxś ${target.popes_in_a_row} ${kremufka}`,
+                value: `Zjadłeś/aś ${target.popes_in_a_row} ${kremufka} pod rząd :fire:`,
                 inline: true
             }
         )
