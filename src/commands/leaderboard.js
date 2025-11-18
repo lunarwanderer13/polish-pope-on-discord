@@ -25,6 +25,7 @@ export async function execute(interaction) {
 
     const pages = Math.floor(pope_list.length / 10)
     const last_page = pope_list.length - pages * 10
+    let name = ""
 
     for(let p = 0; p < pages; p++) {
         let popes = ""
@@ -32,11 +33,13 @@ export async function execute(interaction) {
         for(let i = 0; i < 10; i++) {
             try {
                 const member = await interaction.guild.members.fetch(pope_list[i + p * 10].id)
-                popes += `**${(i + 1) + p * 10}.** ${member} - ${pope_list[i + p * 10].popes} <:kremuuuuufkuuuj_z_tyyyyyym_:1435705908167708743> | ${pope_list[i + p * 10].popes_in_a_row} :fire:\n`
+                name = member.displayName.replaceAll("*", "\\*").replaceAll("_", "\\_")
             } catch(error) {
                 const user = await interaction.client.users.fetch(pope_list[i + p * 10].id)
-                popes += `**${(i + 1) + p * 10}.** ${user} - ${pope_list[i + p * 10].popes} <:kremuuuuufkuuuj_z_tyyyyyym_:1435705908167708743> | ${pope_list[i + p * 10].popes_in_a_row} :fire:\n`
+                name = user.username.replaceAll("*", "\\*").replaceAll("_", "\\_")
             }
+
+            popes += `**${(i + 1) + p * 10}.** *${name}* - ${pope_list[i + p * 10].popes} <:kremuuuuufkuuuj_z_tyyyyyym_:1435705908167708743> | ${pope_list[i + p * 10].popes_in_a_row} :fire:\n`
         }
 
         leaderboard.addDescriptions([popes])
@@ -47,11 +50,13 @@ export async function execute(interaction) {
     for(let i = 0; i < last_page; i++) {
         try {
             const member = await interaction.guild.members.fetch(pope_list[i + pages * 10].id)
-            popes += `**${(i + 1) + pages * 10}.** ${member} - ${pope_list[i + pages * 10].popes} <:kremuuuuufkuuuj_z_tyyyyyym_:1435705908167708743> | ${pope_list[i + pages * 10].popes_in_a_row} :fire:\n`
+            name = member.displayName.replaceAll("*", "\\*").replaceAll("_", "\\_")
         } catch(error) {
             const user = await interaction.client.users.fetch(pope_list[i + pages * 10].id)
-            popes += `**${(i + 1) + pages * 10}.** ${user} - ${pope_list[i + pages * 10].popes} <:kremuuuuufkuuuj_z_tyyyyyym_:1435705908167708743> | ${pope_list[i + pages * 10].popes_in_a_row} :fire:\n`
+            name = user.username.replaceAll("*", "\\*").replaceAll("_", "\\_")
         }
+
+        popes += `**${(i + 1) + pages * 10}.** *${name}* - ${pope_list[i + pages * 10].popes} <:kremuuuuufkuuuj_z_tyyyyyym_:1435705908167708743> | ${pope_list[i + pages * 10].popes_in_a_row} :fire:\n`
     }
 
     leaderboard.addDescriptions([popes])

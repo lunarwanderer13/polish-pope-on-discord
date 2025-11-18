@@ -8,13 +8,6 @@ export const once = false
 export function execute(message) {
     if (message.author.id == process.env.CLIENT_ID) return;
 
-    const kremufki = []
-    const imagesPath = path.join(process.cwd(), "src", "images", "kremufki")
-    const imagesFiles = fs.readdirSync(imagesPath).filter(f => f.endsWith(".png"))
-    for (const image of imagesFiles) {
-        kremufki.push(path.join(imagesPath, image))
-    }
-
     let now = new Date()
     const hours = now.getHours()
     const minutes = now.getMinutes()
@@ -33,6 +26,13 @@ export function execute(message) {
                     content: "Możesz pisać 2137 tylko na kanale 2137!",
                     flags: MessageFlags.Ephemeral
                 })
+            }
+
+            const kremufki = []
+            const imagesPath = path.join(process.cwd(), "src", "images", "kremufki")
+            const imagesFiles = fs.readdirSync(imagesPath).filter(f => f.endsWith(".png"))
+            for (const image of imagesFiles) {
+                kremufki.push(path.join(imagesPath, image))
             }
 
             let entry = pope_list.find(e => e.id === message.author.id)
